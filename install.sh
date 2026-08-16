@@ -11,7 +11,8 @@ APT_PACKAGES=(
   vim
   unzip
   jq
-  helix 
+  helix
+  gh 
 )
 
 DNF_PACKAGES=(
@@ -21,7 +22,8 @@ DNF_PACKAGES=(
   vim-enhanced
   unzip
   jq
-  helix 
+  helix
+  gh 
 )
 
 PACMAN_PACKAGES=(
@@ -31,7 +33,8 @@ PACMAN_PACKAGES=(
   vim
   unzip
   jq
-  helix 
+  helix
+  gh 
 )
 
 print_intro() {
