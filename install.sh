@@ -24,6 +24,7 @@ DNF_PACKAGES=(
   jq
   helix
   gh 
+  nextcloud-client
 )
 
 PACMAN_PACKAGES=(
