@@ -65,6 +65,7 @@ install_packages() {
   echo "Installing packages using: $package_manager"
   case "$package_manager" in
   apt)
+    sudo add-apt-repository ppa:maveonair/helix-editor
     sudo apt-get update
     sudo apt-get install -y "${APT_PACKAGES[@]}"
     ;;
