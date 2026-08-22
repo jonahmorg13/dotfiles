@@ -13,6 +13,9 @@ APT_PACKAGES=(
   jq
   helix
   gh
+  tmux
+  htop
+  btop
 )
 
 DNF_PACKAGES=(
@@ -25,6 +28,9 @@ DNF_PACKAGES=(
   helix
   gh
   nextcloud-client
+  tmux
+  htop
+  btop
 )
 
 PACMAN_PACKAGES=(
@@ -35,7 +41,27 @@ PACMAN_PACKAGES=(
   unzip
   jq
   helix
+  tmux
+  htop
+  btop
+  yay
 )
+
+YAY_PACKAGES=(
+  git
+  curl
+  wget
+  vim
+  unzip
+  jq
+  helix
+  tmux
+  htop
+  btop
+  yay
+)
+
+
 
 print_intro() {
   echo "======================================================"
@@ -51,6 +77,8 @@ get_architecture() {
 get_package_manager() {
   if command -v apt-get >/dev/null 2>&1; then
     package_manager=apt
+  elif command -v yay >/dev/null 2>&1; then
+    package_manager=yay
   elif command -v pacman >/dev/null 2>&1; then
     package_manager=pacman
   elif command -v dnf >/dev/null 2>&1; then
@@ -71,6 +99,9 @@ install_packages() {
     ;;
   dnf)
     sudo dnf install "${DNF_PACKAGES[@]}"
+    ;;
+  yay)
+    yay -Sy --needed --noconfirm
     ;;
   pacman)
     sudo pacman -Sy --needed --noconfirm "${PACMAN_PACKAGES[@]}"

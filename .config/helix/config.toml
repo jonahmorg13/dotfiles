@@ -1,4 +1,4 @@
-theme = "ao"
+theme = "autumn"
 
 [editor]
 line-number = "relative"
@@ -19,13 +19,3 @@ left = ["mode", "spinner", "version-control", "file-name"]
 insert = "bar"
 normal = "block"
 select = "underline"
-
-[keys.normal]
-0 = "goto_line_start"
-"$" = "goto_line_end"
-
-[keys.normal.c]
-r = ":sh cargo run 2>&1 || true"
-c = ":sh cargo check 2>&1 || true"
-b = ":sh cargo build 2>&1 || true"
-t = ":sh cargo test 2>&1 || true"
