@@ -16,6 +16,21 @@ APT_PACKAGES=(
   tmux
   htop
   btop
+  zsh
+  neovim
+  kitty
+  eza
+  fzf
+  fd-find # installs the "fd" binary as fdfind, not fd
+  fastfetch
+  ncdu
+  tldr
+  rsync
+  nmap
+  dunst
+  brightnessctl
+  pamixer
+  blueman
 )
 
 DNF_PACKAGES=(
@@ -31,6 +46,21 @@ DNF_PACKAGES=(
   tmux
   htop
   btop
+  zsh
+  neovim
+  kitty
+  eza
+  fzf
+  fd-find
+  fastfetch
+  ncdu
+  tldr
+  rsync
+  nmap
+  dunst
+  brightnessctl
+  pamixer
+  blueman
 )
 
 PACMAN_PACKAGES=(
@@ -49,6 +79,22 @@ PACMAN_PACKAGES=(
   wl-clipboard
   libnotify
   base-devel
+  zsh
+  neovim
+  kitty
+  eza
+  fzf
+  fd
+  fastfetch
+  ncdu
+  tldr
+  rsync
+  nmap
+  dunst
+  brightnessctl
+  pamixer
+  blueman
+  waybar
 )
 
 # AUR-only packages (or packages we want yay to resolve regardless of repo).
@@ -56,6 +102,11 @@ PACMAN_PACKAGES=(
 YAY_PACKAGES=(
   hyprshot
   hyprpicker
+  hyprland
+  hyprlauncher
+  hyprlock
+  hyprpaper
+  hyprtoolkit
 )
 
 
