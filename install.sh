@@ -45,20 +45,17 @@ PACMAN_PACKAGES=(
   htop
   btop
   yay
+  grim
+  slurp
+  wl-clipboard
+  libnotify
 )
 
+# AUR-only packages (or packages we want yay to resolve regardless of repo).
+# These install in addition to PACMAN_PACKAGES when yay is available.
 YAY_PACKAGES=(
-  git
-  curl
-  wget
-  vim
-  unzip
-  jq
-  helix
-  tmux
-  htop
-  btop
-  yay
+  hyprshot
+  hyprpicker
 )
 
 
@@ -77,10 +74,8 @@ get_architecture() {
 get_package_manager() {
   if command -v apt-get >/dev/null 2>&1; then
     package_manager=apt
-  elif command -v yay >/dev/null 2>&1; then
-    package_manager=yay
   elif command -v pacman >/dev/null 2>&1; then
-    package_manager=pacman
+    package_manager=arch
   elif command -v dnf >/dev/null 2>&1; then
     package_manager=dnf
   else
@@ -100,11 +95,13 @@ install_packages() {
   dnf)
     sudo dnf install "${DNF_PACKAGES[@]}"
     ;;
-  yay)
-    yay -Sy --needed --noconfirm
-    ;;
-  pacman)
+  arch)
     sudo pacman -Sy --needed --noconfirm "${PACMAN_PACKAGES[@]}"
+    if command -v yay >/dev/null 2>&1; then
+      yay -Sy --needed --noconfirm "${YAY_PACKAGES[@]}"
+    else
+      echo "yay not found; skipping AUR packages: ${YAY_PACKAGES[*]}"
+    fi
     ;;
   *)
     echo "Unsupported package manager: $package_manager"
