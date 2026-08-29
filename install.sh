@@ -44,11 +44,11 @@ PACMAN_PACKAGES=(
   tmux
   htop
   btop
-  yay
   grim
   slurp
   wl-clipboard
   libnotify
+  base-devel
 )
 
 # AUR-only packages (or packages we want yay to resolve regardless of repo).
@@ -84,6 +84,18 @@ get_package_manager() {
   fi
 }
 
+install_yay() {
+  if command -v yay >/dev/null 2>&1; then
+    return
+  fi
+  echo "yay not found; bootstrapping it from the AUR..."
+  local build_dir
+  build_dir=$(mktemp -d)
+  git clone --depth 1 https://aur.archlinux.org/yay-bin.git "$build_dir/yay-bin"
+  (cd "$build_dir/yay-bin" && makepkg -si --needed --noconfirm)
+  rm -rf "$build_dir"
+}
+
 install_packages() {
   echo "Installing packages using: $package_manager"
   case "$package_manager" in
@@ -97,6 +109,7 @@ install_packages() {
     ;;
   arch)
     sudo pacman -Sy --needed --noconfirm "${PACMAN_PACKAGES[@]}"
+    install_yay
     if command -v yay >/dev/null 2>&1; then
       yay -Sy --needed --noconfirm "${YAY_PACKAGES[@]}"
     else
