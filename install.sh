@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#[TODO] add waybar config
+#[TODO] what other config do i need to add?
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -46,6 +48,11 @@ DNF_PACKAGES=(
   tmux
   htop
   btop
+  grim
+  slurp
+  wl-clipboard
+  libnotify
+  playerctl
   zsh
   neovim
   kitty
@@ -61,6 +68,29 @@ DNF_PACKAGES=(
   brightnessctl
   pamixer
   blueman
+  waybar
+)
+
+# Core Hyprland packages were orphaned/retired from the official Fedora repos
+# (hyprland itself was retired as of Fedora 43), so they need a COPR.
+# ashbuk/Hyprland-Fedora only publishes x86_64 chroots; lionheartp/Hyprland
+# (a fork of solopasha/hyprland) also builds aarch64 (e.g. Fedora Asahi Remix).
+DNF_COPR_X86_64="ashbuk/Hyprland-Fedora"
+DNF_COPR_AARCH64="lionheartp/Hyprland"
+DNF_COPR_PACKAGES=(
+  hyprland
+  hyprlock
+  hyprpaper
+  hyprpicker
+  xdg-desktop-portal-hyprland
+)
+
+# ashbuk/Hyprland-Fedora (x86_64) doesn't build these; lionheartp/Hyprland
+# (aarch64) does. Install from source on x86_64 if you need them there.
+DNF_COPR_PACKAGES_AARCH64=(
+  hyprshot
+  hyprlauncher
+  hyprtoolkit
 )
 
 PACMAN_PACKAGES=(
@@ -157,6 +187,20 @@ install_packages() {
     ;;
   dnf)
     sudo dnf install "${DNF_PACKAGES[@]}"
+    case "$arch" in
+    x86_64) dnf_copr="$DNF_COPR_X86_64" ;;
+    aarch64) dnf_copr="$DNF_COPR_AARCH64" ;;
+    *) dnf_copr="" ;;
+    esac
+    if [[ -n "$dnf_copr" ]]; then
+      sudo dnf copr enable "$dnf_copr"
+      sudo dnf install "${DNF_COPR_PACKAGES[@]}"
+      if [[ "$arch" == "aarch64" ]]; then
+        sudo dnf install "${DNF_COPR_PACKAGES_AARCH64[@]}"
+      fi
+    else
+      echo "No known Hyprland COPR for $arch; skipping: ${DNF_COPR_PACKAGES[*]}"
+    fi
     ;;
   arch)
     sudo pacman -Sy --needed --noconfirm "${PACMAN_PACKAGES[@]}"
