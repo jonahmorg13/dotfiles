@@ -46,6 +46,11 @@ DNF_PACKAGES=(
   tmux
   htop
   btop
+  grim
+  slurp
+  wl-clipboard
+  libnotify
+  playerctl
   zsh
   neovim
   kitty
@@ -61,7 +66,22 @@ DNF_PACKAGES=(
   brightnessctl
   pamixer
   blueman
+  waybar
 )
+
+# Core Hyprland packages were orphaned/retired from the official Fedora repos
+# (hyprland itself was retired as of Fedora 43), so they need a COPR.
+DNF_COPR="ashbuk/Hyprland-Fedora"
+DNF_COPR_PACKAGES=(
+  hyprland
+  hyprlock
+  hyprpaper
+  hyprpicker
+  xdg-desktop-portal-hyprland
+)
+
+# No maintained Fedora/COPR package found for these as of writing;
+# install from source if you need them: hyprshot, hyprlauncher, hyprtoolkit
 
 PACMAN_PACKAGES=(
   git
@@ -157,6 +177,8 @@ install_packages() {
     ;;
   dnf)
     sudo dnf install "${DNF_PACKAGES[@]}"
+    sudo dnf copr enable "$DNF_COPR"
+    sudo dnf install "${DNF_COPR_PACKAGES[@]}"
     ;;
   arch)
     sudo pacman -Sy --needed --noconfirm "${PACMAN_PACKAGES[@]}"
