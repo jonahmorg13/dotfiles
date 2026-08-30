@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#[TODO] add waybar config
+#[TODO] what other config do i need to add?
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -83,8 +85,13 @@ DNF_COPR_PACKAGES=(
   xdg-desktop-portal-hyprland
 )
 
-# No maintained Fedora/COPR package found for these as of writing;
-# install from source if you need them: hyprshot, hyprlauncher, hyprtoolkit
+# ashbuk/Hyprland-Fedora (x86_64) doesn't build these; lionheartp/Hyprland
+# (aarch64) does. Install from source on x86_64 if you need them there.
+DNF_COPR_PACKAGES_AARCH64=(
+  hyprshot
+  hyprlauncher
+  hyprtoolkit
+)
 
 PACMAN_PACKAGES=(
   git
@@ -188,6 +195,9 @@ install_packages() {
     if [[ -n "$dnf_copr" ]]; then
       sudo dnf copr enable "$dnf_copr"
       sudo dnf install "${DNF_COPR_PACKAGES[@]}"
+      if [[ "$arch" == "aarch64" ]]; then
+        sudo dnf install "${DNF_COPR_PACKAGES_AARCH64[@]}"
+      fi
     else
       echo "No known Hyprland COPR for $arch; skipping: ${DNF_COPR_PACKAGES[*]}"
     fi
