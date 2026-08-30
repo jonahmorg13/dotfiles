@@ -71,7 +71,10 @@ DNF_PACKAGES=(
 
 # Core Hyprland packages were orphaned/retired from the official Fedora repos
 # (hyprland itself was retired as of Fedora 43), so they need a COPR.
-DNF_COPR="ashbuk/Hyprland-Fedora"
+# ashbuk/Hyprland-Fedora only publishes x86_64 chroots; lionheartp/Hyprland
+# (a fork of solopasha/hyprland) also builds aarch64 (e.g. Fedora Asahi Remix).
+DNF_COPR_X86_64="ashbuk/Hyprland-Fedora"
+DNF_COPR_AARCH64="lionheartp/Hyprland"
 DNF_COPR_PACKAGES=(
   hyprland
   hyprlock
@@ -177,8 +180,17 @@ install_packages() {
     ;;
   dnf)
     sudo dnf install "${DNF_PACKAGES[@]}"
-    sudo dnf copr enable "$DNF_COPR"
-    sudo dnf install "${DNF_COPR_PACKAGES[@]}"
+    case "$arch" in
+    x86_64) dnf_copr="$DNF_COPR_X86_64" ;;
+    aarch64) dnf_copr="$DNF_COPR_AARCH64" ;;
+    *) dnf_copr="" ;;
+    esac
+    if [[ -n "$dnf_copr" ]]; then
+      sudo dnf copr enable "$dnf_copr"
+      sudo dnf install "${DNF_COPR_PACKAGES[@]}"
+    else
+      echo "No known Hyprland COPR for $arch; skipping: ${DNF_COPR_PACKAGES[*]}"
+    fi
     ;;
   arch)
     sudo pacman -Sy --needed --noconfirm "${PACMAN_PACKAGES[@]}"
