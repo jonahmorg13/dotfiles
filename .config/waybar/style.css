@@ -1,0 +1,166 @@
+/* Waybar theme — matches ~/Nextcloud2/pictures/wallpapers/bri-grass.jpeg */
+
+@define-color bg-darkest    #1a1712;
+@define-color bg-base       #242012;
+@define-color bg-alt        #322a1a;
+@define-color border-muted  #4a3821;
+@define-color text-muted    #9e978e;
+@define-color text-cream    #ede0c8;
+@define-color text-bright   #fff4dc;
+@define-color accent-gold   #c98a4b;
+@define-color accent-bright #e0a865;
+@define-color accent-sage   #7a8c6e;
+@define-color warn          #d9a15c;
+@define-color critical      #b3543a;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 18px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: @text-cream;
+    border: none;
+    box-shadow: none;
+}
+
+tooltip {
+    background-color: @bg-base;
+    border: 1px solid @accent-gold;
+    border-radius: 10px;
+}
+
+tooltip label {
+    color: @text-cream;
+}
+
+/* ---- Workspaces pill ---- */
+#workspaces {
+    background-color: alpha(@bg-base, 0.75);
+    border: 1px solid @border-muted;
+    border-radius: 14px;
+    padding: 2px 6px;
+    margin: 2px 0;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 2px;
+    color: @text-muted;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+}
+
+#workspaces button.active {
+    color: @bg-darkest;
+    background-color: @accent-gold;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    color: @text-bright;
+    background-color: @critical;
+}
+
+#workspaces button:hover {
+    background-color: @bg-alt;
+    color: @accent-bright;
+}
+
+/* ---- Clock pill (center hero) ---- */
+#clock {
+    background-color: @accent-gold;
+    color: @bg-darkest;
+    font-weight: bold;
+    border-radius: 14px;
+    padding: 2px 18px;
+    margin: 2px 0;
+}
+
+/* ---- Right cluster: one continuous pill, thin dividers between icons ---- */
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#cpu,
+#temperature,
+#memory {
+    background-color: alpha(@bg-base, 0.75);
+    border-top: 1px solid @border-muted;
+    border-bottom: 1px solid @border-muted;
+    border-radius: 0;
+    padding: 2px 12px;
+    margin: 2px 0;
+}
+
+#idle_inhibitor {
+    border-left: 1px solid @border-muted;
+    border-radius: 14px 0 0 14px;
+    padding-left: 16px;
+}
+
+#memory {
+    border-right: 1px solid @border-muted;
+    border-radius: 0 14px 14px 0;
+    padding-right: 16px;
+}
+
+#pulseaudio,
+#network,
+#cpu,
+#temperature {
+    border-right: 1px solid @border-muted;
+}
+
+#idle_inhibitor.activated {
+    color: @accent-gold;
+}
+
+#network {
+    color: @accent-sage;
+}
+
+#network.disconnected {
+    color: @critical;
+}
+
+#pulseaudio {
+    color: @accent-bright;
+}
+
+#pulseaudio.muted {
+    color: @text-muted;
+}
+
+#cpu,
+#memory {
+    color: @text-cream;
+}
+
+#temperature {
+    color: @text-cream;
+}
+
+#temperature.critical,
+#temperature.gpu.critical {
+    color: @critical;
+}
+
+/* ---- Tray pill ---- */
+#tray {
+    background-color: alpha(@bg-base, 0.75);
+    border: 1px solid @border-muted;
+    border-radius: 14px;
+    padding: 2px 12px;
+    margin: 2px 0 2px 10px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}

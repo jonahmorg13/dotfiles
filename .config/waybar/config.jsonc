@@ -1,0 +1,68 @@
+{
+    "layer": "top",
+    "margin-top": 10,
+    "margin-left": 14,
+    "margin-right": 14,
+    "spacing": 0,
+
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "temperature", "temperature#gpu", "memory", "tray"],
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "tooltip-format": "{:%Y-%m-%d | %I:%M:%S %p}",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "cpu": {
+        "format": "{usage}% "
+    },
+    "temperature": {
+        "hwmon-path": "/sys/class/hwmon/hwmon7/temp1_input",
+        "format": "CPU {temperatureC}°C "
+    },
+    "temperature#gpu": {
+        "hwmon-path": "/sys/class/hwmon/hwmon0/temp1_input",
+        "format": "GPU {temperatureC}°C "
+    },
+    "memory": {
+        "format": "{}% 󰍛"
+    },
+    "network": {
+        // "interface": "wlp2s0", // (Optional) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-disconnected": "Disconnected ⚠"
+    },
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol"
+    }
+}
