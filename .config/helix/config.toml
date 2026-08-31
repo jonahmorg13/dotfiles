@@ -1,9 +1,8 @@
-theme = "rose_pine"
+theme = "mytheme"
 
 [editor]
 line-number = "relative"
 mouse = false
-rulers = [80]
 bufferline = "multiple"
 cursorline = true
 
