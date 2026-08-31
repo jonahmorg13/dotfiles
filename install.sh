@@ -255,7 +255,10 @@ select_theme() {
       # over top of the corresponding ~/.config/<app>, overriding whatever
       # symlink_configurations already set up for shared/non-themed apps.
       for app in $(ls $THEMES_DIR/$n); do
-        ln -sf "$THEMES_DIR/$n/$app" "$HOME_CONFIG/$app"
+        # -n keeps ln from following an existing ~/.config/<app> symlink into
+        # its target directory (which would drop the new link inside it
+        # instead of replacing ~/.config/<app> itself).
+        ln -sfn "$THEMES_DIR/$n/$app" "$HOME_CONFIG/$app"
       done
     fi
     NEW_COUNT=$((NEW_COUNT + 1))
