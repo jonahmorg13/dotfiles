@@ -1,0 +1,166 @@
+/* Waybar theme — Tokyo Night, matches ~/.config/kitty/kitty.conf */
+
+@define-color bg-darkest    #1a1b26;
+@define-color bg-base       #292e42;
+@define-color bg-alt        #33467c;
+@define-color border-muted  #414868;
+@define-color text-muted    #787c99;
+@define-color text-cream    #c0caf5;
+@define-color text-bright   #c0caf5;
+@define-color accent-primary   #82aaff;
+@define-color accent-secondary #73daca;
+@define-color accent-sage   #9ece6a;
+@define-color warn          #e0af68;
+@define-color critical      #f7768e;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 18px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: @text-cream;
+    border: none;
+    box-shadow: none;
+}
+
+tooltip {
+    background-color: @bg-base;
+    border: 1px solid @accent-primary;
+    border-radius: 10px;
+}
+
+tooltip label {
+    color: @text-cream;
+}
+
+/* ---- Workspaces pill ---- */
+#workspaces {
+    background-color: alpha(@bg-base, 0.75);
+    border: 1px solid @border-muted;
+    border-radius: 14px;
+    padding: 2px 6px;
+    margin: 2px 0;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    margin: 2px;
+    color: @text-muted;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+}
+
+#workspaces button.active {
+    color: @bg-darkest;
+    background-color: @accent-primary;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    color: @text-bright;
+    background-color: @critical;
+}
+
+#workspaces button:hover {
+    background-color: @bg-alt;
+    color: @accent-secondary;
+}
+
+/* ---- Clock pill (center hero) ---- */
+#clock {
+    background-color: @accent-primary;
+    color: @bg-darkest;
+    font-weight: bold;
+    border-radius: 14px;
+    padding: 2px 18px;
+    margin: 2px 0;
+}
+
+/* ---- Right cluster: one continuous pill, thin dividers between icons ---- */
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#cpu,
+#temperature,
+#memory {
+    background-color: alpha(@bg-base, 0.75);
+    border-top: 1px solid @border-muted;
+    border-bottom: 1px solid @border-muted;
+    border-radius: 0;
+    padding: 2px 12px;
+    margin: 2px 0;
+}
+
+#idle_inhibitor {
+    border-left: 1px solid @border-muted;
+    border-radius: 14px 0 0 14px;
+    padding-left: 16px;
+}
+
+#memory {
+    border-right: 1px solid @border-muted;
+    border-radius: 0 14px 14px 0;
+    padding-right: 16px;
+}
+
+#pulseaudio,
+#network,
+#cpu,
+#temperature {
+    border-right: 1px solid @border-muted;
+}
+
+#idle_inhibitor.activated {
+    color: @accent-primary;
+}
+
+#network {
+    color: @accent-sage;
+}
+
+#network.disconnected {
+    color: @critical;
+}
+
+#pulseaudio {
+    color: @accent-secondary;
+}
+
+#pulseaudio.muted {
+    color: @text-muted;
+}
+
+#cpu,
+#memory {
+    color: @text-cream;
+}
+
+#temperature {
+    color: @text-cream;
+}
+
+#temperature.critical,
+#temperature.gpu.critical {
+    color: @critical;
+}
+
+/* ---- Tray pill ---- */
+#tray {
+    background-color: alpha(@bg-base, 0.75);
+    border: 1px solid @border-muted;
+    border-radius: 14px;
+    padding: 2px 12px;
+    margin: 2px 0 2px 10px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}

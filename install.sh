@@ -5,6 +5,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+HOME_CONFIG="$HOME/.config"
 
 APT_PACKAGES=(
   git
@@ -220,12 +221,76 @@ install_packages() {
 
 symlink_configurations() {
   SOURCE_DIR=$SCRIPT_DIR/.config/
-  TARGET_DIR=$HOME/.config/
+  TARGET_DIR=$HOME_CONFIG/
 
   mkdir -p $TARGET_DIR
 
   shopt -s dotglob
   ln -sf "$SOURCE_DIR"* $TARGET_DIR
+}
+
+select_theme() {
+  THEMES_DIR=$SCRIPT_DIR/themes
+  COUNT=1
+  echo "Choose theme:"
+  for n in $(ls $THEMES_DIR)
+  do
+    echo $COUNT: $n
+    COUNT=$((COUNT + 1))
+  done;
+  read -p "Choose your theme: " THEME_CHOICE
+  if ! [[ "$THEME_CHOICE" =~ ^[0-9]+$ ]]; then
+    echo "Not a number. Aborting..."
+    exit
+  elif [ "$THEME_CHOICE" -lt "1" ] || [ "$THEME_CHOICE" -ge "$COUNT" ]; then
+    echo "Incorrect choice. Aborting..."
+    exit
+  fi
+
+  NEW_COUNT=1
+  for n in $(ls $THEMES_DIR)
+  do
+    if [ "$NEW_COUNT" -eq "$THEME_CHOICE" ]; then
+      # Symlink every app directory in this theme (hypr, waybar, dunst, ...)
+      # over top of the corresponding ~/.config/<app>, overriding whatever
+      # symlink_configurations already set up for shared/non-themed apps.
+      for app in $(ls $THEMES_DIR/$n); do
+        ln -sf "$THEMES_DIR/$n/$app" "$HOME_CONFIG/$app"
+      done
+    fi
+    NEW_COUNT=$((NEW_COUNT + 1))
+  done;
+}
+
+restart_hypr_daemons() {
+  if pgrep -x Hyprland >/dev/null 2>&1; then
+    echo "Reloading Hyprland config..."
+    hyprctl reload
+  fi
+
+  if pgrep -x waybar >/dev/null 2>&1; then
+    echo "Restarting waybar..."
+    pkill -x waybar
+    setsid -f waybar >/dev/null 2>&1
+  fi
+
+  if pgrep -x dunst >/dev/null 2>&1; then
+    echo "Restarting dunst..."
+    pkill -x dunst
+    setsid -f dunst >/dev/null 2>&1
+  fi
+
+  if pgrep -x hyprpaper >/dev/null 2>&1; then
+    echo "Restarting hyprpaper..."
+    pkill -x hyprpaper
+    setsid -f hyprpaper >/dev/null 2>&1
+  fi
+
+  if pgrep -x hyprlauncher >/dev/null 2>&1; then
+    echo "Restarting hyprlauncher..."
+    pkill -x hyprlauncher
+    setsid -f hyprlauncher >/dev/null 2>&1
+  fi
 }
 
 print_outro() {
@@ -239,4 +304,6 @@ get_architecture
 get_package_manager
 install_packages
 symlink_configurations
+select_theme
+restart_hypr_daemons
 print_outro
