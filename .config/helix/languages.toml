@@ -31,6 +31,14 @@ inlayHints.typeHints.hideClosureInitialization = false
 [language-server.rust-analyzer.config.check]
 command = "clippy"
 
+[language-server.roslyn-language-server]
+command = "roslyn-language-server"
+args = ["--stdio", "--autoLoadProjects"]
+
+[[language]]
+name = "c-sharp"
+language-servers = ["roslyn-language-server"]
+
 [[grammar]]
 name = "rust"
 source = { git = "https://github.com/tree-sitter/tree-sitter-rust", rev = "9c84af007b0f144954adb26b3f336495cbb320a7" }
