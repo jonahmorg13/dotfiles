@@ -385,3 +385,28 @@ hl.window_rule({
     move  = "20 monitor_h-120",
     float = true,
 })
+
+-- Always-floating apps
+hl.window_rule({
+    name  = "float-bitwarden",
+    match = { class = "^[Bb]itwarden$" },
+    float = true,
+})
+
+hl.window_rule({
+    name  = "float-nextcloud",
+    match = { class = "^[Nn]extcloud$" },
+    float = true,
+})
+
+hl.window_rule({
+    name  = "float-pavucontrol",
+    match = { class = "^[Pp]avucontrol$" },
+    float = true,
+})
+
+hl.window_rule({
+    name  = "float-blueman-manager",
+    match = { class = "^blueman-manager$" },
+    float = true,
+})

@@ -70,6 +70,7 @@ DNF_PACKAGES=(
   pamixer
   blueman
   waybar
+  pavucontrol
 )
 
 # Core Hyprland packages were orphaned/retired from the official Fedora repos
