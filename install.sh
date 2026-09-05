@@ -133,6 +133,7 @@ PACMAN_PACKAGES=(
 # These install in addition to PACMAN_PACKAGES when yay is available.
 YAY_PACKAGES=(
   hyprshot
+  hyprsunset
   hyprpicker
   hyprland
   hyprlauncher
